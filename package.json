@@ -1,7 +1,7 @@
 {
   "name": "reelrail",
   "version": "0.1.1",
-  "description": "An agent that sources, researches, writes, renders, stores and publishes short videos for one publication per config file.",
+  "description": "ReelRail sources, researches, writes, renders, stores and publishes short videos for one publication per config file.",
   "type": "module",
   "main": "./src/index.js",
   "exports": {
