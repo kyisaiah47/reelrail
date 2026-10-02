@@ -9,7 +9,7 @@
     "./package.json": "./package.json"
   },
   "bin": {
-    "reelrail": "./src/cli.js"
+    "reelrail": "src/cli.js"
   },
   "files": [
     "src/",
