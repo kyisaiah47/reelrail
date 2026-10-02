@@ -5,7 +5,7 @@ import { ok, fail } from '../envelope.js';
 import { obj, any, str, num, arr } from '../schema.js';
 import { openStore } from '../store/index.js';
 
-const slugify = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
+const slugify = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60).replace(/-+$/, '');
 
 export function buildRow(input, cfg, n) {
   const d = input.draft;
