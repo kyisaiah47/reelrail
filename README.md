@@ -31,6 +31,8 @@ reelrail --status
 
 From a clone, `npm run example` runs the same steps without a global install. It makes the sample media and runs one dry slot of the worked example. It needs no model key, and it posts nothing. The rendered video is written to `examples/whyyourbraindoesthat/out/`.
 
+A video tutorial on YouTube runs the worked example and copies it for a new publication: https://youtu.be/l6DyFQk0F_s
+
 The worked example is in `examples/whyyourbraindoesthat`. The example uses one of our own publications, a series of psychology explainers. When a Pexels or Pixabay key is set, the example uses real stock footage. Without a key, it uses the sample clip. A dry slot fetches the article, writes with the stub writer, renders with edge-tts narration, reads the file back, stores the entry in a local JSON file and writes a receipt instead of uploading it.
 
 ## Commands
