@@ -1,0 +1,57 @@
+{
+  "name": "reelrail",
+  "version": "0.1.0",
+  "description": "An agent that sources, researches, writes, renders, stores and publishes short videos for one publication per config file.",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "reelrail": "./src/cli.js"
+  },
+  "files": [
+    "src/",
+    "templates/",
+    "examples/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test --test-concurrency=1 test/*.test.js",
+    "scrub": "node scripts/scrub-gate.mjs",
+    "sample-media": "node scripts/make-sample-media.mjs"
+  },
+  "engines": {
+    "node": ">=22.13"
+  },
+  "keywords": [
+    "video",
+    "agent",
+    "short-form",
+    "tts",
+    "ffmpeg",
+    "youtube",
+    "tiktok",
+    "research"
+  ],
+  "author": "Compound Labs",
+  "license": "MIT",
+  "homepage": "https://reelrail.thecompound.tech",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kyisaiah47/reelrail.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kyisaiah47/reelrail/issues"
+  },
+  "peerDependencies": {
+    "playwright-core": ">=1.40"
+  },
+  "peerDependenciesMeta": {
+    "playwright-core": {
+      "optional": true
+    }
+  }
+}

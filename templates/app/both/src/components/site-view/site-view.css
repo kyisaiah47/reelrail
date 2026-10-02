@@ -1,0 +1,48 @@
+/* The view controls and the welcome dialog. Same tokens as both views. */
+.sv-view-tools { display: flex; align-items: center; flex-wrap: wrap; gap: 24px; color: var(--ink-dim); font-size: 13px; }
+.sv-view-tools > div { display: flex; align-items: center; gap: 20px; }
+.sv-view-tools > div > span { color: var(--ink-faint); }
+.sv-view-tools button { min-height: 44px; color: var(--ink-dim); }
+.sv-view-tools button:hover { color: var(--ink); }
+.sv-view-tools button[aria-pressed='true'] { color: var(--ink); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 5px; }
+
+.sv-welcome { padding: 0; margin: auto; border: 1px solid var(--rule-strong); border-radius: 12px; background: var(--ground); color: var(--ink); width: min(760px, calc(100vw - 40px)); max-width: none; max-height: calc(100dvh - 40px); overflow: auto; opacity: 0; transform: translateY(12px) scale(0.99); transition: opacity 220ms ease, transform 220ms var(--ease); box-shadow: 0 30px 120px #000a; }
+.sv-welcome[data-visible='true'] { opacity: 1; transform: none; }
+.sv-welcome::backdrop { background: #0000; transition: background 220ms ease; }
+.sv-welcome[data-visible='true']::backdrop { background: #000a; backdrop-filter: blur(4px); }
+.sv-welcome-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--rule); padding: 10px 16px 10px 24px; font-size: 14px; }
+.sv-welcome-top small { color: var(--ink-faint); font: 11px var(--mono); }
+.sv-welcome-top > button { font-size: 26px; width: 44px; height: 44px; color: var(--ink-dim); }
+.sv-welcome-intro { padding: 28px 32px 22px; }
+.sv-welcome-intro h2 { font: 500 clamp(24px, 3vw, 34px)/1.2 var(--sans); padding-bottom: 14px; }
+.sv-welcome-intro p { font-size: 15px; line-height: 1.7; color: var(--ink-dim); }
+.sv-illustration { margin: 0 32px; border: 1px solid var(--rule); border-radius: 10px; background: var(--panel); padding-bottom: 14px; }
+.sv-illustration > div { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--rule); padding: 12px 16px; font: 12px/1.6 var(--mono); color: var(--ink-faint); }
+.sv-illustration > p { padding: 12px 16px 6px; font-size: 14px; color: var(--ink-dim); }
+.sv-illustration > p:last-child { font-size: 12.5px; color: var(--ink-faint); }
+.sv-illustration blockquote { margin: 0 16px; padding: 10px 14px; background: var(--ground); border: 1px solid var(--rule); border-radius: 6px; font-size: 15px; }
+.sv-illustration .sv-illustration-quote { background: var(--accent-wash); border-color: rgba(124, 196, 184, 0.4); }
+.sv-welcome-choose { padding: 24px 32px 28px; }
+.sv-welcome-choose > div:first-child { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding-bottom: 16px; }
+.sv-welcome-choose h3 { font: 500 15px/1.5 var(--sans); }
+.sv-welcome-choose p { color: var(--ink-faint); font-size: 12.5px; }
+.sv-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.sv-choices button { display: flex; flex-direction: column; gap: 8px; padding: 20px; border: 1px solid var(--rule); border-radius: 10px; background: var(--panel); text-align: left; }
+.sv-choices strong { padding-top: 10px; font: 500 14px/1.5 var(--sans); }
+.sv-choices button > span:last-child { font-size: 13px; line-height: 1.7; color: var(--ink-dim); }
+.sv-choices button:hover { border-color: rgba(124, 196, 184, 0.5); background: var(--panel-2); }
+.sv-welcome > footer { border-top: 1px solid var(--rule); padding: 14px 24px; background: var(--panel); }
+.sv-welcome > footer label { display: flex; align-items: center; gap: 10px; font-size: 12.5px; color: var(--ink-dim); min-height: 32px; cursor: pointer; }
+.sv-welcome input { accent-color: var(--accent); margin: 0; width: 16px; height: 16px; }
+
+@media (width <= 600px) {
+  .sv-welcome { width: calc(100vw - 24px); max-height: calc(100dvh - 24px); }
+  .sv-welcome-intro { padding: 22px 20px 18px; }
+  .sv-illustration { margin: 0 20px; }
+  .sv-welcome-choose { padding: 22px 20px; }
+  .sv-welcome-choose > div:first-child { display: block; }
+  .sv-choices { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sv-welcome, .sv-welcome::backdrop { transition: none; }
+}

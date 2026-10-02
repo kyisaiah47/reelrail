@@ -1,0 +1,46 @@
+/* CONSOLE. Dense, three columns, everything on screen at once. The rails stretch the full height
+ * of the grid and carry the dividers; an inner wrapper is what sticks. */
+.bar { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 28px; padding: 12px 24px; border-bottom: 1px solid var(--rule); background: var(--panel); }
+.bar-title { font-weight: 600; }
+.console { display: grid; grid-template-columns: 300px minmax(0, 1fr) 300px; align-items: stretch; min-height: calc(100dvh - 160px); }
+.side { border-right: 1px solid var(--rule); align-self: stretch; }
+.side-r { border-right: 0; border-left: 1px solid var(--rule); }
+.side-in { position: sticky; top: 0; padding: 16px; overflow: auto; max-height: 100dvh; }
+.side h2 { padding: 8px 0; }
+.idx { display: grid; }
+.idx a { display: flex; justify-content: space-between; gap: 12px; padding: 10px 8px; border-radius: 6px; text-decoration: none; font-size: 14px; color: var(--ink-dim); min-height: 44px; align-items: center; }
+.idx a { border: 1px solid transparent; }
+.idx a[aria-current='true'] { background: var(--accent-wash); color: var(--ink); border-color: rgba(124, 196, 184, 0.4); }
+.tag { font: 11px var(--mono); flex-shrink: 0; }
+.tag.ok { color: var(--ok); }
+.tag.dry { color: var(--dry); }
+.river { padding: 24px 32px 48px; min-width: 0; }
+.river-grid { display: grid; grid-template-columns: minmax(220px, 340px) minmax(0, 1fr); gap: 32px; align-items: start; }
+.river h1 { font-size: clamp(24px, 2.4vw, 34px); line-height: 1.2; padding: 8px 0 16px; }
+.player.none { display: grid; place-items: center; color: var(--ink-faint); border: 1px dashed var(--rule-strong); }
+.script { list-style: none; padding: 0; display: grid; gap: 10px; }
+.script li { display: grid; grid-template-columns: 32px 1fr; gap: 8px; }
+.midcard { margin-top: 20px; padding: 16px; border: 1px solid var(--rule); border-radius: 8px; background: var(--panel); }
+.midcard ul { padding-left: 18px; color: var(--ink-dim); }
+.caption { margin-top: 16px; color: var(--ink-dim); }
+.block { margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--rule); }
+.block h2 { padding-bottom: 12px; }
+.facts { display: grid; gap: 6px; padding-bottom: 16px; }
+.facts > div { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; }
+.facts dt { color: var(--ink-faint); font: 12px/1.8 var(--mono); }
+.facts dd { font: 13px/1.8 var(--mono); text-align: right; }
+.credits { list-style: none; padding: 0 0 16px; font-size: 13px; color: var(--ink-dim); display: grid; gap: 4px; }
+.raw pre { font: 11.5px/1.5 var(--mono); color: var(--ink-dim); white-space: pre-wrap; overflow-wrap: anywhere; max-height: 360px; overflow: auto; }
+
+@media (width <= 1100px) {
+  .console { grid-template-columns: 260px minmax(0, 1fr); }
+  .side-r { grid-column: 1 / -1; border-left: 0; border-top: 1px solid var(--rule); }
+  .side-r .side-in { position: static; max-height: none; }
+}
+@media (width <= 760px) {
+  .console { grid-template-columns: 1fr; }
+  .side { border-right: 0; border-bottom: 1px solid var(--rule); }
+  .side-in { position: static; max-height: 320px; }
+  .river { padding: 20px 16px 40px; }
+  .river-grid { grid-template-columns: 1fr; }
+}

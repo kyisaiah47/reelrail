@@ -1,0 +1,26 @@
+{{Short description|Test fixture article}}
+{{Infobox concept
+| name = Spotlight effect
+| field = {{nowrap|social psychology}}
+}}
+[[File:Spotlight.jpg|thumb|A stage light. The caption has a [[Stage lighting|link]] inside it.]]
+The '''spotlight effect''' is the [[Psychology|psychological]] phenomenon by which people tend to believe they are being noticed more than they really are.<ref>{{cite journal |last=Example |year=2000 |title=A cited paper}}</ref> The term was used in a study published in 2000.<ref name="a" />
+
+People tend to overestimate how much others notice their appearance and behaviour.{{sfn|Example|2000|p=2}} The effect is described as a form of [[egocentric bias]].
+
+== Research ==
+In one experiment, students wore a shirt they found embarrassing and estimated how many peers noticed it. The students who wore the shirt guessed that about half of the room noticed, while the real share was lower, close to 25% of the peers in the room.
+
+{| class="wikitable"
+! Group !! Estimate
+|-
+| Wearers || 50
+|}
+
+The effect is stronger when a person feels self-conscious, and it fades when attention is turned to other people in the room. Researchers describe this as an anchoring problem: people start from their own view and adjust too little.
+
+== See also ==
+* [[Illusion of transparency]]
+
+== References ==
+{{reflist}}

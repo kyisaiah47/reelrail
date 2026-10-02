@@ -1,0 +1,85 @@
+{
+ "about": "Pattern list for the ReelRail copy gate. Regex syntax is shared by JavaScript RegExp and Python re. Scope flags: copy applies to outward copy such as captions and narration.",
+ "rule": "Write information, not prose. One fact per sentence, subject verb object. No caption in front of a link, no money figure without who pays, no metaphor for the thing, no label on its own line, no modifier tail on a name.",
+ "families": {
+  "1": {
+   "name": "caption-for-a-link",
+   "what": "a noun phrase ending in a colon in front of a link, in place of a sentence that says what the link is"
+  },
+  "2": {
+   "name": "figure-without-payer",
+   "what": "a percent or dollar figure about money with no clause saying who pays or gets it"
+  },
+  "3": {
+   "name": "product-metaphor",
+   "what": "a metaphor or coined name standing in for the product or its output in outward copy"
+  },
+  "4": {
+   "name": "label-not-sentence",
+   "what": "a noun phrase ending in a colon alone on a line, followed by prose or a link instead of a list"
+  },
+  "5": {
+   "name": "modifier-tail",
+   "what": "a naming fragment (a tagline, theme, headline or card line) with a relative clause or a participial phrase hung off the noun instead of just saying the plain noun"
+  }
+ },
+ "patterns": [
+  {
+   "slug": "caption-link",
+   "family": 1,
+   "pattern": "(?:^|[.!?]\\s+|\\n)[ \\t]*(?:a|an|the|our|your|my|this)\\s+(?![^\\n:]*\\b(?:is|are|was|were|here|at|see|watch|open|go|goes)\\b)[^.!?\\n:<]{2,80}:[ \\t]*(?:\\n[ \\t]*)?<url>|(?:^|[.!?]\\s+|\\n)[ \\t]*(?!here\\b)[a-z][^.!?\\n:<]{1,60}\\s+of\\s+(?:the|our|your|a|an)\\s+[^.!?\\n:<]{1,40}:[ \\t]*(?:\\n[ \\t]*)?<url>",
+   "fix": "write a sentence that says what the link is: Here is a demo video: <link>",
+   "copy": true,
+   "answer": true,
+   "reply": true
+  },
+  {
+   "slug": "figure-no-payer",
+   "family": 2,
+   "pattern": "\\$\\s?\\d[\\d,]*(?:\\.\\d+)?\\b|\\b\\d[\\d,]*\\s+(?:dollars|usd)\\b|\\b\\d[\\d,]*(?:\\.\\d+)?\\s*(?:%|percent|per\\s*cent)",
+   "fix": "put the figure in a clause with a payer and a verb: You pay 25 percent of what the state grants.",
+   "copy": true,
+   "answer": true,
+   "reply": false,
+   "requires": "\\b(?:[Rr]elief|[Rr]efunds?|[Ff]ees?|[Ss]avings?|[Rr]evenue|[Cc]ommission|[Cc]ut|[Ss]hare|[Pp]rices?|[Rr]ecover(?:y|ies|ed)?|[Gg]rants?|[Gg]ranted|[Rr]ebates?|[Cc]ontingency|[Cc]harges?|[Pp]ayments?|[Pp]ayouts?|[Pp]aid|[Ii]nvoices?|[Bb]ills?|[Cc]osts?|[Dd]ollars|[Cc]redits?|\\$)",
+   "unless": "\\b(?:[Yy]ou|[Ww]e|[Tt]hey|I|[Ii]t|[Hh]e|[Ss]he|[Ww]ho|[Tt]hat|[Ww]hich|[Cc]lients?|[Cc]ustomers?|[Bb]uyers?|[Oo]wners?|[Ee]mployers?|[Cc]ompanies|[Tt]he\\s+\\w+(?<!ed)|[Oo]ur\\s+\\w+(?<!ed)|[Yy]our\\s+\\w+(?<!ed)|[A-Z][a-z]+(?<!ed))\\s+(?:(?:will|would|can|could|only|never|then|also|just|still|usually|typically)\\s+)?(?:pay|pays|paid|charge|charged|bill|bills|billed|cost|costs|invoice|invoices|invoiced|refund|refunds|refunded|grant|grants|granted|owe|owes|owed|keep|keeps|kept|get|gets|got|receive|receives|received|earn|earns|earned|save|saves|saved|recover|recovers|recovered|take|takes|took|collect|collects|collected|return|returns|returned)\\b|\\b(?:[Ff]ee|[Pp]rice|[Pp]ricing|[Rr]ate)\\s+(?:is|was|of|for)\\b|\\b(?:is|are|was|were|averages?|averaged|totals?|totaled|comes?\\s+to|came\\s+to|equals?)\\s+(?:about|around|roughly|over|under|at\\s+least|up\\s+to|\\$|\\d)|\\bcosts?\\s+(?:you|\\$|\\d)|\\bno\\s+charge\\b|\\bper\\s+(?:month|year|seat|user|line|statement|file)\\b|/mo\\b|/yr\\b",
+   "min_words": 6
+  },
+  {
+   "slug": "product-metaphor",
+   "family": 3,
+   "pattern": "\\b(?:the|our|your|a)\\s+desk\\b|\\bwalk-?throughs?\\b|\\b(?:the|our)\\s+(?:\\w+\\s+)?spine\\b|\\bunder\\s+the\\s+hood\\b|\\bbehind\\s+the\\s+scenes\\b|\\bthe\\s+magic\\b|\\b(?:our|the)\\s+secret\\s+sauce\\b",
+   "fix": "use the product's own site words: demo video, statements, protests, the product name",
+   "copy": true,
+   "answer": true,
+   "reply": false
+  },
+  {
+   "slug": "label-not-sentence",
+   "family": 4,
+   "pattern": "(?:^|\\n)[ \\t]*(?:a|an|the|our|your|my)\\s+(?![^\\n:]*\\b(?:is|are|was|were|has|have|had|does|did|will|can|here)\\b)[^\\n:.!?<`]{2,70}:[ \\t]*\\n(?:[ \\t]*\\n)*[ \\t]*(?![-*•|#>]|\\d+[.)]\\s|```)\\S",
+   "fix": "write the sentence the label stands for: Here is a demo video: <link>, or The state deadline is thirty days.",
+   "copy": true,
+   "answer": true,
+   "reply": true
+  },
+  {
+   "slug": "naming-participial-tail",
+   "family": 5,
+   "pattern": "(?:^|\\n)[ \\t]*(?:the|our|a|an|two|three|four|five|six|seven|eight|nine|ten|\\d+)\\s+[a-z][^\\n.!?:;]{0,50},\\s+(?:[a-z]+(?:ed|ing)|rebuilt|built|written|rewritten|drawn|redrawn|kept|made|remade|shown|taken|retaken|given|held|sent|resent|run|rerun|cut|recut|put|read|reread|set|reset|found|refound|left|lost|won|met|told|sold|resold|paid|repaid|spent|dealt|felt|drawn|torn|worn|sworn|blown|grown|known|thrown|flown|driven|proven|chosen|frozen|broken|spoken|woken|stolen|risen|fallen|eaten|beaten|hidden|ridden|bitten|bound|wound|ground|swept|slept|crept|dwelt|burnt|learnt|spelt|spilt|split|shut|hit|let|bet|quit|spread|shed|fed|refed|bled|led|misled|sped|fled|struck|stuck|dug|hung|swung|clung|flung|stung|spun|shot|caught|taught|brought|bought|fought|sought|thought)\\s+[^\\n.!?:;]{2,40}[ \\t]*(?=\\n|$)",
+   "fix": "say the plain noun and stop: \"four ranking sites\", not \"four boards, recounted every night\"",
+   "copy": true,
+   "answer": true,
+   "reply": false
+  },
+  {
+   "slug": "naming-relative-clause",
+   "family": 5,
+   "pattern": "(?:^|\\n)[ \\t]*(?:the|two|three|four|five|six|seven|eight|nine|ten|\\d+)\\s+[a-z][a-z-]{2,24}s\\s+(?:that|which|who|whom|whose|where|nobody|anybody|anyone|everyone|no one)\\s+[^\\n.!?:;]{4,60}[ \\t]*(?=\\n|$)",
+   "fix": "say the plain noun and stop: \"four ranking sites\", not \"four rankings nobody can buy their way onto\"",
+   "copy": true,
+   "answer": true,
+   "reply": false
+  }
+ ]
+}

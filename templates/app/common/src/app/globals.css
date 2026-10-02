@@ -1,0 +1,62 @@
+/* The publication site's register. A starting point: change the tokens, keep the roles.
+ *   --accent marks what the reader is doing: the current entry, a focused control, a link.
+ *   --ok and --dry are status inks. The accent never paints a status.
+ *   One sans face for every sentence. Mono only for ids, timings and measurements. */
+:root {
+  --ground: #121212;
+  --panel: #1b1b1b;
+  --panel-2: #222;
+  --rule: #2e2e2e;
+  --rule-strong: #444;
+  --ink: #f2efe9;
+  --ink-dim: #bdb8ae;
+  --ink-faint: #8a857c;
+  --accent: #7cc4b8;
+  --accent-wash: rgba(124, 196, 184, 0.12);
+  --quote: #191d1c;
+  --ok: #9ccf7a;
+  --dry: #d9b26a;
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--ground); color: var(--ink); font: 16px/1.6 var(--sans); }
+a { color: inherit; }
+a:hover { color: var(--accent); }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; padding: 0; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+h1, h2, h3, p, dl, dd, ul { margin: 0; }
+
+.head { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 14px 24px; border-bottom: 1px solid var(--rule); }
+.head .brand { font-weight: 600; text-decoration: none; }
+.head nav { display: flex; gap: 24px; color: var(--ink-dim); font-size: 14px; }
+.head nav a { text-decoration: none; padding: 10px 0; }
+.foot { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px 32px; padding: 24px; border-top: 1px solid var(--rule); color: var(--ink-faint); font-size: 13.5px; }
+
+.label { font: 12px/1.6 var(--mono); color: var(--ink-faint); letter-spacing: 0.02em; }
+.primary { display: inline-flex; align-items: center; min-height: 44px; padding: 10px 18px; border-radius: 8px; background: var(--accent); color: #0e1a18; font-weight: 600; text-decoration: none; }
+.primary:hover { color: #0e1a18; filter: brightness(1.08); }
+.player { width: 100%; max-height: 72vh; background: #000; border-radius: 10px; aspect-ratio: 9 / 16; object-fit: contain; }
+
+.sources ul { list-style: none; padding: 0; display: grid; gap: 8px; }
+.sources li span { color: var(--ink-faint); font-size: 14px; }
+.sources dl { display: grid; gap: 12px; margin-top: 16px; }
+.sources dt { color: var(--ink-dim); font-size: 14px; }
+.sources dd { margin-top: 6px; padding: 10px 14px; background: var(--quote); border: 1px solid var(--rule); border-radius: 6px; font-size: 15px; }
+
+.page { padding: 0 24px 48px; }
+.crumb { padding: 24px 0; font-size: 14px; color: var(--ink-faint); }
+.entry { display: grid; grid-template-columns: minmax(260px, 420px) 1fr; gap: 40px; align-items: start; }
+.entry h1 { font-size: clamp(26px, 3vw, 40px); line-height: 1.2; padding: 8px 0 16px; }
+.entry h2 { font-size: 18px; padding: 32px 0 12px; }
+.entry p + p { margin-top: 10px; }
+.empty { padding: 64px 24px; color: var(--ink-dim); }
+.empty code { font: 14px var(--mono); color: var(--ink); }
+
+@media (width <= 860px) {
+  .entry { grid-template-columns: 1fr; }
+  .head { flex-wrap: wrap; }
+}

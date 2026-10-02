@@ -1,0 +1,51 @@
+{
+  "slug": "whyyourbraindoesthat",
+  "publication": "whyyourbraindoesthat",
+  "laneId": "psych-narrated",
+  "registryId": "ugc-psych",
+  "host": "whyyourbrain.thecompound.tech",
+  "voiceFile": "voice.md",
+  "format": {
+    "kind": "vertical-narrated",
+    "frame": "1080x1920",
+    "schema": "clip-v1",
+    "ttsVoice": "en-US-AriaNeural"
+  },
+  "source": {
+    "kind": "subject-pool",
+    "pool": "subjects.json#subjects",
+    "recent": 8
+  },
+  "research": {
+    "kind": "wikipedia-raw"
+  },
+  "gates": ["noise", "prose", "lint", "claims:facts.json"],
+  "cadence": {
+    "perDay": 1,
+    "activeHours": [8, 22]
+  },
+  "outputs": {
+    "primary": {
+      "platform": "tiktok",
+      "handle": "@your-tiktok-handle",
+      "transport": "api",
+      "tiktok": { "privacy": "SELF_ONLY" }
+    },
+    "store": {
+      "kind": "json",
+      "path": "out/store.json",
+      "table": "publication_posts",
+      "bucket": "publication",
+      "pictureCrop": "2:3"
+    },
+    "secondary": ["pinterest", "letter", "tiktok-comments"]
+  },
+  "writer": {
+    "provider": "stub"
+  },
+  "illustrate": {
+    "footage": { "providers": ["pexels", "pixabay"], "localDir": "media/clips", "maxClips": 4, "secondsPerClip": 6 },
+    "music": { "file": "media/bed.mp3", "duck": 0.22 },
+    "tts": { "kind": "edge-tts", "rate": "-8%" }
+  }
+}

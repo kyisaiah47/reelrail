@@ -1,0 +1,32 @@
+{
+  "about": "The claims register for this publication. It is a gate input: the claims gate refuses any draft that uses a retired term, repeats a corrected passage, or uses a banned phrase. Each corrected claim names the paper that corrected it.",
+  "retiredTerms": [
+    { "term": "anticipatory rehearsal", "why": "the phrase has no PubMed title or abstract occurrences, so it is not an established term" },
+    { "term": "threat simulation", "why": "Revonsuo's threat simulation theory is about the function of dreams, not waking thought" }
+  ],
+  "claims": [
+    {
+      "id": "zeigarnik-no-memory-advantage",
+      "claim": "Unfinished tasks do not enjoy a memory advantage. What replicates is the tendency to resume them.",
+      "sourceUrl": "https://doi.org/10.1057/s41599-025-05000-w",
+      "sourceTitle": "Ghibellini and Meier (2025), Interruption, recall and resumption: a meta-analysis of the Zeigarnik and Ovsiankina effects, Humanities and Social Sciences Communications",
+      "sourceQuote": "We found no memory advantage for unfinished tasks but found a general tendency to resume tasks.",
+      "retiredProse": [
+        { "text": "it keeps unfinished tasks running as open loops", "replacedWith": "it keeps pulling you back to what you left unfinished" },
+        { "text": "open loops stay awake in your attention until they're closed", "replacedWith": "unfinished things keep pulling you back until they're done or written down" }
+      ]
+    },
+    {
+      "id": "doorway-effect-not-replicated",
+      "claim": "Crossing a doorway does not reliably cause forgetting. The forgetting is real; the doorway explanation is not.",
+      "sourceUrl": "https://doi.org/10.1186/s40359-021-00536-3",
+      "sourceTitle": "McFadyen, Nolan, Pinocy, Buteri and Baumann (2021), Doorways do not always cause forgetting: a multimodal investigation, BMC Psychology",
+      "sourceQuote": "Across this series of experiments, we observed no significant effect of doorways on forgetting.",
+      "retiredProse": [
+        { "text": "Step back through the door and the file often reopens", "replacedWith": "the forgetting is real, and a 2021 study across four experiments found no reliable doorway effect" },
+        { "text": "the doorway effect is real", "replacedWith": "the forgetting is real. the doorway is not" }
+      ]
+    }
+  ],
+  "bannedPhrases": ["studies show", "research shows", "scientists say"]
+}

@@ -1,0 +1,21 @@
+// reelrail: the public API.
+export { CODES, ok, fail, signal, isSignal } from './envelope.js';
+export { loadConfig, resolveConfig, validateConfig, CONFIG_SCHEMA } from './config.js';
+export { STATIONS, ORDER } from './stations/index.js';
+export { runSlot, runStation, isDue } from './loop.js';
+export { statusAll, statusOf, formatStatus } from './status.js';
+export { createProvider, PROVIDERS } from './providers/index.js';
+export { runStructured, extractJSON } from './providers/structured.js';
+export { runGates } from './gates/index.js';
+export { noiseIssues, proseIssues } from './gates/copy.js';
+export { linkIssues } from './gates/firewall.js';
+export { sourceIssues } from './research/source-check.js';
+export { fetchArticle, stripWikitext } from './research/wikipedia.js';
+export { renderClip, chunkWords, planBackgrounds } from './render/render.js';
+export { verifyClip } from './render/verify.js';
+export { jsonStore, sqliteStore, supabaseStore, openStore } from './store/index.js';
+export { publishYouTube } from './publish/youtube.js';
+export { publishTikTok } from './publish/tiktok.js';
+export { publishBrowser } from './publish/browser.js';
+export { scaffoldApp } from './app/scaffold.js';
+export { VERSION } from './version.js';

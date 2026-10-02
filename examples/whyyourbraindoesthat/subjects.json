@@ -1,0 +1,75 @@
+{
+  "about": "The subject pool. Each subject names one Wikipedia article (the only source the writer may use), the term the clip supplies, the felt experience it opens on, and a footage search. Every term was checked to appear in its article on 2026-10-02.",
+  "subjects": [
+    {
+      "id": "staircase-wit",
+      "term": "L'esprit de l'escalier",
+      "article": "https://en.wikipedia.org/wiki/L%27esprit_de_l%27escalier",
+      "angle": "You think of the perfect reply an hour after the conversation ends.",
+      "query": "quiet walking path"
+    },
+    {
+      "id": "spotlight-effect",
+      "term": "spotlight effect",
+      "article": "https://en.wikipedia.org/wiki/Spotlight_effect",
+      "angle": "You walk into a room sure that everyone noticed the mark on your shirt.",
+      "query": "soft light curtains"
+    },
+    {
+      "id": "tip-of-the-tongue",
+      "term": "tip of the tongue",
+      "article": "https://en.wikipedia.org/wiki/Tip_of_the_tongue",
+      "angle": "You know the word. You can almost feel it. It will not come.",
+      "query": "tea steam close up"
+    },
+    {
+      "id": "frequency-illusion",
+      "term": "frequency illusion",
+      "article": "https://en.wikipedia.org/wiki/Frequency_illusion",
+      "angle": "You learn a new word, and then you hear it everywhere.",
+      "query": "forest path fog"
+    },
+    {
+      "id": "earworm",
+      "term": "earworm",
+      "article": "https://en.wikipedia.org/wiki/Earworm",
+      "angle": "A song you did not choose has been playing in your head all morning.",
+      "query": "rain on window"
+    },
+    {
+      "id": "semantic-satiation",
+      "term": "semantic satiation",
+      "article": "https://en.wikipedia.org/wiki/Semantic_satiation",
+      "angle": "You say a word over and over, and it stops sounding like a word.",
+      "query": "still lake reflection"
+    },
+    {
+      "id": "planning-fallacy",
+      "term": "planning fallacy",
+      "article": "https://en.wikipedia.org/wiki/Planning_fallacy",
+      "angle": "You were sure the task would take an hour. It took the whole afternoon.",
+      "query": "misty mountain calm"
+    },
+    {
+      "id": "pareidolia",
+      "term": "pareidolia",
+      "article": "https://en.wikipedia.org/wiki/Pareidolia",
+      "angle": "You look up at the clouds and one of them has a face.",
+      "query": "clouds timelapse sky"
+    },
+    {
+      "id": "cocktail-party-effect",
+      "term": "cocktail party effect",
+      "article": "https://en.wikipedia.org/wiki/Cocktail_party_effect",
+      "angle": "The room is loud, and you still hear your own name from across it.",
+      "query": "ocean waves calm"
+    },
+    {
+      "id": "mere-exposure-effect",
+      "term": "mere-exposure effect",
+      "article": "https://en.wikipedia.org/wiki/Mere-exposure_effect",
+      "angle": "A song you did not like at first is now one you play on repeat.",
+      "query": "candle flame dark"
+    }
+  ]
+}
