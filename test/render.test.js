@@ -55,3 +55,12 @@ test('verify fails a silent file and a wrong frame size (negative controls)', { 
   const c = await verifyClip(silent, { frame: { w: 360, h: 640 }, total: 9, fps: 30 });
   assert.equal(c.checks.find((x) => x.name === 'duration').ok, false);
 });
+
+test('full-range stock footage still renders to limited-range yuv420p', { skip: !canRender() && 'ffmpeg or Pillow missing' }, async () => {
+  const dir = tmpdir();
+  const src = path.join(dir, 'fullrange.mp4');
+  execFileSync('ffmpeg', ['-y', '-v', 'error', '-f', 'lavfi', '-i', 'testsrc2=s=360x640:d=8:r=30', '-vf', 'format=yuvj420p', '-c:v', 'libx264', '-pix_fmt', 'yuvj420p', '-preset', 'ultrafast', src]);
+  const plan = await renderClip({ cards: ['a', 'b'], narration: ['A short line to read aloud.', 'A second line.'], voice: 'x', tts: { kind: 'tone' }, backgrounds: [src], frame: { w: 360, h: 640 }, out: path.join(dir, 'o', 'clip.mp4'), preset: 'ultrafast' });
+  const v = await verifyClip(plan.video, plan);
+  assert.equal(v.ok, true, JSON.stringify(v.checks.filter((c) => !c.ok)));
+});

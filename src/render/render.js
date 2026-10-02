@@ -239,7 +239,8 @@ export async function renderClip(p) {
     f.push(`[${prev}][mc]overlay=0:0:format=auto:enable='between(t,${midWin.start.toFixed(3)},${midWin.end.toFixed(3)})'[v3]`);
     prev = 'v3';
   }
-  f.push(`[${prev}]format=yuv420p[v]`);
+  // Stock footage is sometimes full range (yuvj420p). The output is always limited range, which every player expects.
+  f.push(`[${prev}]scale=out_range=tv,format=yuv420p[v]`);
   segs.forEach((_, i) => f.push(`[${VO + i}:a]aresample=48000,apad=whole_dur=${durs[i].toFixed(3)}[vs${i}]`));
   f.push(`${segs.map((_, i) => `[vs${i}]`).join('')}concat=n=${segs.length}:v=0:a=1[vo]`);
   if (MUS >= 0) {
@@ -252,7 +253,7 @@ export async function renderClip(p) {
 
   await run(bins.ffmpeg, ['-y', '-v', 'error', ...inputs, '-filter_complex', f.join(';'),
     '-map', '[v]', '-map', '[a]', '-t', total.toFixed(3), '-r', String(FPS),
-    '-c:v', 'libx264', '-preset', p.preset || 'medium', '-crf', String(p.crf || 23), '-pix_fmt', 'yuv420p',
+    '-c:v', 'libx264', '-preset', p.preset || 'medium', '-crf', String(p.crf || 23), '-pix_fmt', 'yuv420p', '-color_range', 'tv', '-maxrate', p.maxrate || '8M', '-bufsize', p.bufsize || '16M',
     '-c:a', 'aac', '-b:a', '160k', '-ar', '48000', '-ac', '2', '-movflags', '+faststart', out], { timeoutMs: 1800000 });
 
   // keep the narration and its timings; drop the per-cue pictures
