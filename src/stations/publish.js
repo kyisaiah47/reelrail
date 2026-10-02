@@ -33,7 +33,7 @@ export default {
     const res = await guard(async () => {
       if (transport === 'dry') {
         return publishDry({ video: input.video, caption, title, platform: primary.platform, handle: primary.handle, entryId: input.entryId,
-          receiptsDir: path.join(cfg.stateDir, 'dry', 'receipts') });
+          receiptsDir: path.join(cfg.stateDir, 'dry', 'receipts'), base: cfg.dir });
       }
       if (transport === 'browser') return publishBrowser({ video: input.video, caption, opts: { ...(primary.browser || {}), handle: primary.handle }, open: ctx.openBrowser });
       if (primary.platform === 'youtube') {

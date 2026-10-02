@@ -34,6 +34,13 @@ test('a full dry slot runs every station and stores the entry at post time', { s
   assert.equal(s.dryStored, 1);
   assert.equal(s.stations.publish.ok, true);
 
+  const persisted = [
+    path.join(cfg.stateDir, 'testpub.json'), path.join(cfg.stateDir, 'testpub.last.json'),
+    path.join(cfg.stateDir, 'dry', 'testpub.store.json'), res.data.receipt,
+  ];
+  for (const f of persisted) assert.ok(!fs.readFileSync(f, 'utf8').includes(dir), `${path.basename(f)} carries a machine path`);
+  assert.ok(fs.existsSync(path.resolve(path.join(cfg.stateDir, 'dry'), row.meta.video)), 'the stored video path resolves from the store file');
+
   const one = await runStation(cfg, 'write', {});
   assert.equal(one.ok, true, 'a single station runs from the last slot\'s data');
   assert.equal(loadState(cfg).dryPosted, 1, 'a single station leaves the ledger alone');

@@ -119,6 +119,8 @@ Each provider reads its key from the environment variable named in `apiKeyEnv`. 
 
 Entries are written in the slot that made them, never in a later batch. The row has the shape of a `publication_posts` table: publication, slug, n, hook, narration, beats, caption, published, date, ts, taxon, still, wide, gallery, clip_id, permalink, platform, updated_at, sources and meta.
 
+Nothing ReelRail writes down holds a machine path. The ledger, the last slot's data and a dry receipt hold paths relative to the config's folder. A JSON or SQLite store holds paths relative to its own file. A Supabase store holds picture URLs and file names.
+
 - `json`: a local file.
 - `sqlite`: a local file through `node:sqlite`. The table is created on first use.
 - `supabase`: the PostgREST and Storage APIs, with `SUPABASE_URL` and a service key named by `outputs.store.keyEnv`. Pictures go to the `bucket`.

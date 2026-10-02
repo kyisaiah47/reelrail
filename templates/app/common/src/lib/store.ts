@@ -35,10 +35,13 @@ export interface Entry {
 
 export const PUBLICATION = process.env.REELRAIL_PUBLICATION || '__PUBLICATION__';
 
+/** A JSON store writes its paths relative to its own file. */
+export const STORE_FILE = path.resolve(process.cwd(), process.env.REELRAIL_STORE_PATH || '__STORE_PATH__');
+export const fromStore = (p: string) => (path.isAbsolute(p) ? p : path.resolve(path.dirname(STORE_FILE), p));
+
 function readJsonStore(): Entry[] {
-  const file = path.resolve(process.cwd(), process.env.REELRAIL_STORE_PATH || '__STORE_PATH__');
   try {
-    const db = JSON.parse(fs.readFileSync(file, 'utf8')) as { entries: Entry[] };
+    const db = JSON.parse(fs.readFileSync(STORE_FILE, 'utf8')) as { entries: Entry[] };
     return db.entries || [];
   } catch {
     return [];

@@ -59,6 +59,7 @@ export default {
       const row = buildRow(input, cfg, n);
       if (ctx.stationOnly && ctx.dry) return ok({ entryId: row.slug, row, store: store.kind, written: false }, { where: store.where });
       for (const key of ['still', 'wide']) if (row[key]) row[key] = await store.picture(cfg.publication, row.slug, row[key]);
+      row.meta.video = store.localPath(row.meta.video);
       row.gallery = await Promise.all(row.gallery.map((g) => store.picture(cfg.publication, row.slug, g)));
       await store.put(row);
       return ok({ entryId: row.slug, row, store: store.kind, written: true }, { where: store.where, n });

@@ -3,6 +3,7 @@
 // publication in the config's stateDir. `--status` reads it.
 import fs from 'node:fs';
 import path from 'node:path';
+import { relativize } from './paths.js';
 
 const EMPTY = () => ({
   slug: null,
@@ -30,7 +31,7 @@ export function saveState(cfg, state) {
   fs.mkdirSync(cfg.stateDir, { recursive: true });
   const file = statePath(cfg);
   const tmp = `${file}.${process.pid}.tmp`;
-  fs.writeFileSync(tmp, JSON.stringify(state, null, 2) + '\n');
+  fs.writeFileSync(tmp, JSON.stringify(relativize(state, cfg.dir), null, 2) + '\n');
   fs.renameSync(tmp, file);
 }
 

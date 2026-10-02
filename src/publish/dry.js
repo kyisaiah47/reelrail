@@ -5,14 +5,14 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 
-export async function publishDry({ video, caption, title, platform, handle, entryId, receiptsDir }) {
+export async function publishDry({ video, caption, title, platform, handle, entryId, receiptsDir, base = null }) {
   const bytes = fs.readFileSync(video);
   const receipt = {
     transport: 'dry',
     platform,
     handle,
     entryId,
-    video,
+    video: base ? path.relative(base, video) : path.basename(video),
     bytes: bytes.length,
     sha256: crypto.createHash('sha256').update(bytes).digest('hex'),
     title: title || null,

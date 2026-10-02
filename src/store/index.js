@@ -8,13 +8,16 @@
 //   outputs.store.kind "supabase"  the PostgREST and Storage APIs. Needs SUPABASE_URL and a key
 //                                  named by outputs.store.keyEnv (default SUPABASE_SERVICE_ROLE_KEY)
 //
-// Every adapter has the same four calls: put(row), patch(slug, fields), list(limit), count().
+// Every adapter has the same calls: put(row), patch(slug, fields), list(limit), count(), picture()
+// and localPath(). A JSON or SQLite store writes every path relative to its own file, so the file
+// can move and never carries a machine path. Supabase stores picture URLs and bare file names.
 import fs from 'node:fs';
 import path from 'node:path';
 
 const JSON_COLS = ['narration', 'beats', 'gallery', 'sources', 'meta'];
 
 export function jsonStore(file) {
+  const file_ = file;
   const read = () => { try { return JSON.parse(fs.readFileSync(file, 'utf8')); } catch { return { entries: [] }; } };
   const write = (db) => {
     fs.mkdirSync(path.dirname(file), { recursive: true });
@@ -46,7 +49,8 @@ export function jsonStore(file) {
     async count(publication) {
       return read().entries.filter((e) => e.publication === publication).length;
     },
-    async picture(_publication, _slug, file) { return file; },
+    async picture(_publication, _slug, file) { return path.relative(path.dirname(file_), file); },
+    localPath(p) { return p ? path.relative(path.dirname(file_), p) : p; },
   };
 }
 
@@ -83,7 +87,8 @@ export async function sqliteStore(file) {
     async count(publication) {
       return db.prepare('SELECT COUNT(*) AS n FROM publication_posts WHERE publication = ?').get(publication).n;
     },
-    async picture(_publication, _slug, file) { return file; },
+    async picture(_publication, _slug, pic) { return path.relative(path.dirname(file), pic); },
+    localPath(p) { return p ? path.relative(path.dirname(file), p) : p; },
   };
 }
 
@@ -132,6 +137,7 @@ export function supabaseStore({ url, key, table = 'publication_posts', bucket = 
       if (!res.ok) throw new Error(`${res.status} uploading ${dest}: ${(await res.text()).slice(0, 200)}`);
       return `${url.replace(/\/$/, '')}/storage/v1/object/public/${bucket}/${dest}`;
     },
+    localPath(p) { return p ? path.basename(p) : p; },
   };
 }
 

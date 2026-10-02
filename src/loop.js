@@ -19,6 +19,7 @@ import { check } from './schema.js';
 import { fail, guard, isSignal } from './envelope.js';
 import { loadState, saveState, summarise, remember } from './state.js';
 import { retryNote as noteFor } from './gates/index.js';
+import { relativize, absolutize } from './paths.js';
 
 const pick = (obj, keys) => Object.fromEntries(keys.filter((k) => obj[k] !== undefined).map((k) => [k, obj[k]]));
 
@@ -101,7 +102,7 @@ export async function runSlot(cfg, opts = {}) {
       if (dry) state.dryPosted = (state.dryPosted || 0) + 1; else state.posted = (state.posted || 0) + 1;
       state.slots = [...(state.slots || []), { slotId, at: new Date().toISOString(), ok: true, dry, attempts: attempt, entryId: carry.entryId, url: carry.url || null }].slice(-200);
       saveState(cfg, state);
-      fs.writeFileSync(lastCarryPath(cfg), JSON.stringify(carry, null, 2) + '\n');
+      fs.writeFileSync(lastCarryPath(cfg), JSON.stringify(relativize(carry, cfg.dir), null, 2) + '\n');
       return {
         ok: true,
         data: { slotId, attempts: attempt, entryId: carry.entryId, video: carry.video, url: carry.url || null, transport: carry.transport, receipt: carry.receipt || null, distribute: failed ? failed.env : envelopes.distribute?.data },
@@ -136,7 +137,7 @@ export async function runStation(cfg, name, opts = {}) {
   const ctx = { state, dry: true, stationOnly: true, fetch: opts.fetch, env: opts.env, provider: opts.provider, random: opts.random, sleep: opts.sleep, log: opts.log || (() => {}), stations: opts.stations };
   let carry = opts.input || null;
   if (!carry) {
-    try { carry = JSON.parse(fs.readFileSync(lastCarryPath(cfg), 'utf8')); } catch { carry = null; }
+    try { carry = absolutize(JSON.parse(fs.readFileSync(lastCarryPath(cfg), 'utf8')), cfg.dir); } catch { carry = null; }
   }
   if (!carry) {
     carry = { exclude: [], recentSubjects: state.recentSubjects, recentHooks: state.recentHooks, slotId: `${cfg.slug}-station` };
