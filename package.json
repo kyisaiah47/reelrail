@@ -25,7 +25,8 @@
   "scripts": {
     "test": "node --test --test-concurrency=1 test/*.test.js",
     "scrub": "node scripts/scrub-gate.mjs",
-    "sample-media": "node scripts/make-sample-media.mjs"
+    "sample-media": "node scripts/make-sample-media.mjs",
+    "example": "node scripts/make-sample-media.mjs && node src/cli.js run examples/whyyourbraindoesthat/publication.json --slot --dry"
   },
   "engines": {
     "node": ">=22.13"

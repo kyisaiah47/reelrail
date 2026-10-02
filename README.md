@@ -29,6 +29,8 @@ reelrail run whyyourbraindoesthat --slot --dry            # one full slot, poste
 reelrail --status
 ```
 
+From a clone, `npm run example` runs the same steps without a global install. It makes the sample media and runs one dry slot of the worked example. It needs no model key, and it posts nothing. The rendered video is written to `examples/whyyourbraindoesthat/out/`.
+
 The worked example is in `examples/whyyourbraindoesthat`. The example uses one of our own publications, a series of psychology explainers. When a Pexels or Pixabay key is set, the example uses real stock footage. Without a key, it uses the sample clip. A dry slot fetches the article, writes with the stub writer, renders with edge-tts narration, reads the file back, stores the entry in a local JSON file and writes a receipt instead of uploading it.
 
 ## Commands
@@ -143,8 +145,8 @@ Before an upload, the YouTube and TikTok transports read the signed-in account a
 ## A site for the publication
 
 ```sh
-reelrail new-app --app both --publication whyyourbraindoesthat --dir site
-cd site && cp .env.example .env.local && npm install && npm run dev
+npx reelrail new-app --app both --publication whyyourbraindoesthat --dir my-site
+cd my-site && cp .env.example .env.local && npm install && npm run dev
 ```
 
 `--app console` scaffolds one dense view with every entry, the chosen clip, its script and sources, and its read-back measurements. `--app simple` scaffolds one roomy view with the newest clip, what it says, and its sources and checks behind disclosures. `--app both` scaffolds both views, adds a welcome dialog that explains the site and offers the choice, and adds view controls in the footer.
