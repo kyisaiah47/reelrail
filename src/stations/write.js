@@ -14,8 +14,9 @@ export const SYSTEM = 'You write scripts for short narrated videos. You return o
   + 'Every fact you state comes from the source text you are given. You never add a link, a handle or a call to action.';
 
 const SHAPE = {
-  'vertical-narrated': { beats: [2, 5], words: [6, 24], seconds: [20, 45] },
-  'landscape-documentary': { beats: [8, 24], words: [25, 55], seconds: [180, 600] },
+  // No length limit (Isaiah, 2026-10-05: purge all video length limits). A shape has no seconds window.
+  'vertical-narrated': { beats: [2, 5], words: [6, 24] },
+  'landscape-documentary': { beats: [8, 24], words: [25, 55] },
 };
 
 export function buildPrompt({ cfg, subject, research, recentHooks = [], retry = '' }) {
@@ -35,7 +36,7 @@ export function buildPrompt({ cfg, subject, research, recentHooks = [], retry = 
     'THE SHAPE:',
     `- hook: the on-screen opener, 3 to 9 words.`,
     `- beats: ${shape.beats[0]} to ${shape.beats[1]} short on-screen lines.`,
-    `- narration: exactly one spoken line for the hook and one for each beat, in order, each ${shape.words[0]} to ${shape.words[1]} words. The whole read lands between ${shape.seconds[0]} and ${shape.seconds[1]} seconds at about two words a second.`,
+    `- narration: exactly one spoken line for the hook and one for each beat, in order, each ${shape.words[0]} to ${shape.words[1]} words.`,
     '- midcard: { title, points } summarises what the narration already said. title is at most 40 characters. points are exactly 3 lines of at most 42 characters. No hashtags, no handles, no numbering.',
     '- caption: one line plus 3 or 4 lowercase hashtags.',
     '- format: the register from the voice file that this clip uses.',
