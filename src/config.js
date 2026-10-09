@@ -73,7 +73,7 @@ export function findConfig(slugOrPath, cwd = process.cwd()) {
   const here = import.meta.dirname;
   const candidates = [
     path.join(cwd, 'publications', `${slugOrPath}.json`),
-    path.join(cwd, slugOrPath, 'publication.json'),
+    path.resolve(cwd, slugOrPath, 'publication.json'),
     path.join(cwd, 'examples', slugOrPath, 'publication.json'),
     path.join(here, '..', 'examples', slugOrPath, 'publication.json'),
   ];

@@ -1,8 +1,8 @@
 {
   "slug": "whyyourbraindoesthat",
   "publication": "whyyourbraindoesthat",
-  "laneId": "psych-narrated",
-  "registryId": "ugc-psych",
+  "laneId": "example-lane",
+  "registryId": "example-account",
   "host": "whyyourbrain.thecompound.tech",
   "voiceFile": "voice.md",
   "format": {

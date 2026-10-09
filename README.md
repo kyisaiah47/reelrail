@@ -2,6 +2,26 @@
 
 ReelRail is an open-source agent that makes short narrated videos for a publication. Each run selects a subject, fetches its source, writes a script from that source, renders the video, stores the entry and publishes it. One JSON config describes one publication.
 
+## Quickstart (about five minutes)
+
+```sh
+npm install -g reelrail
+reelrail doctor                                # checks ffmpeg, ffprobe, Python, Pillow and edge-tts
+reelrail init my-first-reel                    # copies the worked example and makes its sample media
+reelrail run my-first-reel --slot --dry        # renders one video and posts it nowhere
+reelrail --status my-first-reel
+```
+
+The video is written to `my-first-reel/out/<slot>/<slot>.mp4`. The dry run needs no model key and no footage key. It writes with the stub writer, narrates with free edge-tts voices, uses the sample clip that `init` made, and records a receipt instead of uploading anything.
+
+If `reelrail doctor` reports a missing dependency, it prints the install command for your system. The usual gap is Python's Pillow and edge-tts packages. Homebrew and Debian Python refuse a global `pip install`, so doctor suggests a virtual environment and tells ReelRail to use it with `REELRAIL_PYTHON`.
+
+Next steps:
+
+- Edit `my-first-reel/subjects.json` and `voice.md` to set the subjects and voice for your publication.
+- Set a free `GEMINI_API_KEY` and change `writer` to `{ "provider": "gemini", "model": "gemini-2.5-flash" }` for real scripts.
+- Set a free `PEXELS_API_KEY` or `PIXABAY_API_KEY` for real stock footage.
+
 ## What makes it ReelRail
 
 **Researched and source-checked scripts.** The research station fetches the subject's Wikipedia article when the clip is written. The writer may use only that text for facts. The writer returns each factual line with its source sentence. A mechanical check rejects the draft when a quoted sentence is absent from the source, when a year or percentage in the clip is absent from the source, or when the source lacks the name the clip uses. Each stored entry keeps the article URL, revision id and quotes.
@@ -14,30 +34,24 @@ ReelRail is an open-source agent that makes short narrated videos for a publicat
 
 ## Requirements
 
+Run `reelrail doctor` first. It checks each item below and prints the install command for macOS, Linux and Windows.
+
 - Node.js 22.13 or later.
-- The PATH must contain ffmpeg and ffprobe.
-- Python 3 requires Pillow and edge-tts, installed with `pip install pillow edge-tts`.
-- Stock footage requires your own free Pexels or Pixabay API key in `PEXELS_API_KEY` or `PIXABAY_API_KEY`.
+- ReelRail requires ffmpeg with the libx264 encoder and ffprobe. Set `REELRAIL_FFMPEG` and `REELRAIL_FFPROBE` if they are not on the PATH.
+- ReelRail requires Python 3.9 or later with Pillow and edge-tts. Set `REELRAIL_PYTHON` to use a virtual environment's Python.
+- You can set your own free Pexels or Pixabay key in `PEXELS_API_KEY` or `PIXABAY_API_KEY` for stock footage. Without a key, ReelRail uses the clips in `illustrate.footage.localDir`.
 
-## Quick start
-
-```sh
-npm install -g reelrail
-git clone https://github.com/kyisaiah47/reelrail && cd reelrail
-npm run sample-media                                      # a music bed and a sample clip, made with ffmpeg
-reelrail run whyyourbraindoesthat --slot --dry            # one full slot, posted to the dry transport
-reelrail --status
-```
-
-From a clone, `npm run example` runs the same steps without a global install. It makes the sample media and runs one dry slot of the worked example. It needs no model key, and it posts nothing. The rendered video is written to `examples/whyyourbraindoesthat/out/`.
+When you run `npm run example` from a repository clone, the command makes the sample media. It then runs one dry slot of the worked example and writes the video to `examples/whyyourbraindoesthat/out/`.
 
 A video tutorial on YouTube runs the worked example and copies it for a new publication: https://youtu.be/l6DyFQk0F_s
 
-The worked example is in `examples/whyyourbraindoesthat`. The example uses one of our own publications, a series of psychology explainers. When a Pexels or Pixabay key is set, the example uses real stock footage. Without a key, it uses the sample clip. A dry slot fetches the article, writes with the stub writer, renders with edge-tts narration, reads the file back, stores the entry in a local JSON file and writes a receipt instead of uploading it.
+The worked example is in `examples/whyyourbraindoesthat`, and `reelrail init` copies it. The example uses one of our own publications, a series of psychology explainers. When a Pexels or Pixabay key is set, the example uses real stock footage. Without a key, it uses the sample clip. A dry slot fetches the article, writes with the stub writer, renders with edge-tts narration, reads the file back, stores the entry in a local JSON file and writes a receipt instead of uploading it.
 
 ## Commands
 
 ```sh
+reelrail doctor                                    # check system dependencies; exit 1 if one is missing
+reelrail init [dir]                                # copy the worked example into dir, with sample media
 reelrail run <slug> --slot [--dry]                 # one slot through all seven stations
 reelrail run <slug> --station <name> --dry         # one station; prints its envelope
 reelrail --status [slug...]                        # last envelope per station, posted and stored counts
@@ -52,7 +66,7 @@ reelrail new-app --app console|simple|both         # scaffold a Next.js site tha
 
 `--station <name> --dry` stores nothing, posts nothing and leaves the ledger unchanged. The illustrate station still writes its render to `out/` because the read-back opens that file.
 
-The command exits with code 0 when the slot posted or was not due. It exits with code 2 for a usage error, code 3 when a platform signal halted the publication, code 4 when every draft in the run was refused and the slot remains owed, and code 1 for a fault in the engine.
+The command exits with code 0 when the slot posted or was not due. It exits with code 2 for a usage error or a publication with no footage source, code 3 when a platform signal halted the publication, code 4 when every draft in the run was refused and the slot remains owed, and code 1 for a fault in the engine.
 
 ## The publication config
 

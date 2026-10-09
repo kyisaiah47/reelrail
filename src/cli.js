@@ -1,6 +1,8 @@
 #!/usr/bin/env node
-// reelrail: one module, three entry points.
+// reelrail: the command line.
 //
+//   reelrail doctor                                    check ffmpeg, ffprobe, Python, Pillow and edge-tts
+//   reelrail init [dir]                                copy the worked example into dir, with sample media
 //   reelrail run <slug> --slot [--dry]                 run one slot through all seven stations
 //   reelrail run <slug> --station <name> --dry         run one station, print its envelope
 //                       [--input file.json]
@@ -15,7 +17,10 @@
 // Exit codes: 0 posted or not due; 2 usage; 3 a platform signal halted the publication;
 // 4 every draft was refused and the slot is still owed; 1 a fault in the engine.
 import fs from 'node:fs';
+import path from 'node:path';
 import { loadConfig } from './config.js';
+import { runChecks, formatChecks } from './doctor.js';
+import { initExample } from './init.js';
 import { runSlot, runStation, isDue } from './loop.js';
 import { loadState, saveState } from './state.js';
 import { statusAll, formatStatus } from './status.js';
@@ -29,9 +34,28 @@ const positional = argv.filter((a, i) => !a.startsWith('--') && !(i > 0 && argv[
 const log = (m) => console.error(m);
 
 function usage(code = 2) {
-  console.error(fs.readFileSync(new URL(import.meta.url), 'utf8').split('\n').slice(1, 19).map((l) => l.replace(/^\/\/ ?/, '')).join('\n'));
+  const head = fs.readFileSync(new URL(import.meta.url), 'utf8').split('\n');
+  console.error(head.slice(1, head.findIndex((l) => l.startsWith('import '))).map((l) => l.replace(/^\/\/ ?/, '')).join('\n'));
   process.exit(code);
 }
+
+// A dry slot with no footage key and no local clips fails the same way on every draft, so it is
+// reported once, before the first draft, with the fix.
+function footageProblem(cfg, env = process.env) {
+  const f = cfg.illustrate.footage || {};
+  const keyed = (f.providers || ['pexels', 'pixabay']).some((p) => env[f.keyEnv?.[p] || { pexels: 'PEXELS_API_KEY', pixabay: 'PIXABAY_API_KEY' }[p]]);
+  if (keyed) return null;
+  const dir = f.localDir ? path.resolve(cfg.dir, f.localDir) : null;
+  const clips = dir && fs.existsSync(dir) ? fs.readdirSync(dir).filter((x) => /\.(mp4|mov|m4v|webm)$/i.test(x)) : [];
+  if (clips.length) return null;
+  return `${cfg.slug} has no footage source: no PEXELS_API_KEY or PIXABAY_API_KEY is set${dir ? `, and ${dir} holds no clips` : ', and illustrate.footage.localDir is not set'}.\n`
+    + '  Fix one of these:\n'
+    + '    - set a free key: export PEXELS_API_KEY=...   (https://www.pexels.com/api/)\n'
+    + `    - put .mp4 clips in ${dir || 'a folder and set illustrate.footage.localDir to it'}\n`
+    + '    - start from the worked example, which makes its own sample clip: reelrail init my-first-reel';
+}
+
+const insidePackage = (file) => file.startsWith(path.resolve(import.meta.dirname, '..') + path.sep) && file.split(path.sep).includes('node_modules');
 
 async function main() {
   if (flag('version')) { console.log(VERSION); return 0; }
@@ -43,6 +67,17 @@ async function main() {
     return 0;
   }
   const cmd = positional[0];
+  if (cmd === 'doctor') {
+    const { text, missing } = formatChecks(runChecks());
+    console.log(text);
+    return missing ? 1 : 0;
+  }
+  if (cmd === 'init') {
+    const res = initExample(positional[1] || 'my-first-reel');
+    const rel = path.relative(process.cwd(), res.dir) || '.';
+    console.log(`wrote the worked example and its sample media to ${res.dir}\n  next: reelrail run ${rel} --slot --dry`);
+    return 0;
+  }
   if (cmd === 'new-app') {
     const app = opt('app');
     if (!['console', 'simple', 'both'].includes(app)) usage();
@@ -65,7 +100,13 @@ async function main() {
     return 0;
   }
   if (cmd !== 'run') usage();
+  if (insidePackage(cfg.file)) {
+    console.error(`${cfg.file} is the copy shipped inside the installed package, and a run would write into it.\n  Make your own copy first: reelrail init my-first-reel && reelrail run my-first-reel --slot --dry`);
+    return 2;
+  }
   const station = opt('station');
+  const problem = (!station || station === 'illustrate') ? footageProblem(cfg) : null;
+  if (problem) { console.error(problem); return 2; }
   if (station) {
     if (!flag('dry')) { console.error('--station runs only with --dry. A real post goes through --slot.'); return 2; }
     const input = opt('input') ? JSON.parse(fs.readFileSync(opt('input'), 'utf8')) : null;
